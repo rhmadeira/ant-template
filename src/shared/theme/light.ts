@@ -2057,7 +2057,7 @@ export const light = {
     Layout: {
       bodyBg: "#f5f5f5",
       footerBg: "#f5f5f5",
-      headerBg: "#001529",
+      headerBg: "#ffffff",
       headerColor: "rgba(0, 0, 0, 0.88)",
       lightSiderBg: "#ffffff",
       lightTriggerBg: "#ffffff",

@@ -6,7 +6,7 @@ interface SideStore {
 }
 
 const store: StateCreator<SideStore> = (set) => ({
-  collapsed: false,
+  collapsed: true,
   toggleCollapse: () =>
     set((state) => ({
       collapsed: !state.collapsed,

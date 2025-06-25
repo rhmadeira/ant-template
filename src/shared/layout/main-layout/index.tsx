@@ -1,13 +1,10 @@
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-
-import { Button, Layout, theme } from "antd";
-import { useState } from "react";
+import { Layout, theme } from "antd";
 import Side from "./side";
+import Header from "./header";
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 export default function MainLayout() {
-  const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -20,18 +17,7 @@ export default function MainLayout() {
     >
       <Side />
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: "16px",
-              width: 64,
-              height: 64,
-            }}
-          />
-        </Header>
+        <Header />
         <Content
           style={{
             margin: "24px 16px",
