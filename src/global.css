@@ -1,2 +1,71 @@
-@layer theme, base, antd, components, utilities;
-@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("antd/dist/reset.css") layer(reset);
+
+.ant-layout-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex: 1;
+  padding: 1rem 2rem;
+}
+
+/* .ant-layout-header {
+  padding: 0;
+  background: transparent;
+  min-height: 50px;
+  height: 50px;
+  line-height: 50px;
+} */
+
+.ant-layout-sider {
+  border-right: 1px solid var(--ant-fill-secondary);
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+.ant-layout-footer {
+  padding: 0 2rem;
+}
+
+.ant-select-dropdown .ant-select-item {
+  line-height: 1.57 !important;
+}
+
+:root {
+  font-family: "Nunito", sans-serif;
+}
+
+.slick-arrow {
+  color: #000;
+  font-size: 2rem;
+}
+
+.inputInvoice {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.inputInvoice::-webkit-inner-spin-button,
+.inputInvoice::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #000; /* preto */
+  border-radius: 4px;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #000 transparent;
+}

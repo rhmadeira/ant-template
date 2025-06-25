@@ -1,1 +1,1 @@
-# Template - React + TypeScript + Vite + AntD + Tailwind
+# Template - React + TypeScript + Vite + AntD

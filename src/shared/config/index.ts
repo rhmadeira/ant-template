@@ -1,5 +1,5 @@
-import { dark } from "@/shared/styles/theme/dark";
-import { light } from "@/shared/styles/theme/light";
+import { dark } from "@/shared/theme/dark";
+import { light } from "@/shared/theme/light";
 
 export const config = {
   themes: {
