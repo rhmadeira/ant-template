@@ -1,10 +1,10 @@
 import { Image } from "antd";
-import logoFull from "@/assets/denvio-logo-icon.png";
+import logoFull from "@/assets/denvio-text-white.png";
 
 interface LogoFullProps {
   width?: string;
 }
-export default function LogoFull({ width = "100%" }: LogoFullProps) {
+export default function LogoFullTextWhite({ width = "100%" }: LogoFullProps) {
   return (
     <Image
       src={logoFull}
