@@ -1,67 +1,129 @@
-import { Col, Layout, Menu, Row } from "antd";
+import { Button, Col, Layout, Menu, Row } from "antd";
 import {
-  UploadOutlined,
+  LeftOutlined,
+  RightOutlined,
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import { useSideStore } from "@/data/stores/side-store";
 import LogoFull from "@/shared/components/logo/logo-full";
 import LogoShort from "@/shared/components/logo/logo-short";
+import { useThemeStore } from "@/data/stores/theme-store";
 
 export default function Side() {
   const collapsed = useSideStore((state) => state.collapsed);
-  console.log("🚀 ~ Side ~ collapsed:", collapsed);
+  const toggleCollapse = useSideStore((state) => state.toggleCollapse);
+  const theme = useThemeStore((state) => state.theme);
   return (
-    <Layout.Sider trigger={null} collapsible collapsed={collapsed}>
-      <Row
+    <div
+      style={{
+        position: "relative",
+        height: "100%",
+        backgroundColor: "red",
+      }}
+    >
+      <Button
+        type="text"
+        icon={
+          collapsed ? (
+            <RightOutlined
+              style={{
+                color: theme.token?.colorPrimary,
+              }}
+            />
+          ) : (
+            <LeftOutlined
+              style={{
+                color: theme.token?.colorPrimary,
+              }}
+            />
+          )
+        }
+        onClick={toggleCollapse}
         style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          height: 64,
+          fontSize: "16px",
+          position: "absolute",
+          right: -15,
+          top: 19,
+          zIndex: 100,
+          background: "#fff",
+          border: "1px solid #d9d9d9",
+          boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",
+          borderRadius: 6,
+        }}
+        size="small"
+      />
+      <Layout.Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        style={{
+          boxShadow: "2px 0 8px rgba(0, 0, 0, 0.15)",
+          zIndex: 2,
+          height: "100%",
         }}
       >
-        {!collapsed ? (
-          <Col
-            style={{
-              padding: 5,
-              width: 150,
-            }}
-          >
-            <LogoFull />
-          </Col>
-        ) : (
-          <Col
-            style={{
-              padding: 5,
-              width: 50,
-            }}
-          >
-            <LogoShort />
-          </Col>
-        )}
-      </Row>
-      <Menu
-        mode="inline"
-        defaultSelectedKeys={["1"]}
-        items={[
-          {
-            key: "1",
-            icon: <UserOutlined />,
-            label: "nav 1",
-          },
-          {
-            key: "2",
-            icon: <VideoCameraOutlined />,
-            label: "nav 2",
-          },
-          {
-            key: "3",
-            icon: <UploadOutlined />,
-            label: "nav 3",
-          },
-        ]}
-      />
-    </Layout.Sider>
+        <Row
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: 64,
+          }}
+        >
+          {!collapsed ? (
+            <Col
+              style={{
+                padding: 5,
+                width: 150,
+              }}
+            >
+              <LogoFull />
+            </Col>
+          ) : (
+            <Col
+              style={{
+                padding: 5,
+                width: 50,
+              }}
+            >
+              <LogoShort />
+            </Col>
+          )}
+        </Row>
+        <Menu
+          defaultOpenKeys={["menu"]}
+          mode="inline"
+          defaultSelectedKeys={["1"]}
+          style={{
+            marginTop: 30,
+          }}
+          items={[
+            {
+              key: "menu",
+              label: "Menu",
+              style: {
+                fontWeight: "bold",
+                // fontSize: 16,
+                textAlign: collapsed ? "center" : "left",
+              },
+              type: "group",
+              children: [
+                {
+                  key: "home",
+                  icon: <UserOutlined />,
+                  label: "Home",
+                },
+                {
+                  key: "usuario",
+                  icon: <VideoCameraOutlined />,
+                  label: "Usuários",
+                },
+              ],
+            },
+          ]}
+        />
+      </Layout.Sider>
+    </div>
   );
 }

@@ -1,22 +1,25 @@
-import { useSideStore } from "@/data/stores/side-store";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Button, Layout } from "antd";
+import { Layout, Row } from "antd";
+import MenuOptions from "./menu-options";
 
 export default function Header() {
-  const collapsed = useSideStore((state) => state.collapsed);
-  const toggleCollapse = useSideStore((state) => state.toggleCollapse);
   return (
-    <Layout.Header style={{ padding: 0 }}>
-      <Button
-        type="text"
-        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-        onClick={toggleCollapse}
+    <Layout.Header
+      style={{
+        padding: 0,
+        display: "flex",
+        alignItems: "center",
+
+        paddingRight: 16,
+        paddingLeft: 16,
+        zIndex: 1,
+      }}
+    >
+      <Row
         style={{
-          fontSize: "16px",
-          width: 64,
-          height: 64,
+          flex: 1,
         }}
       />
+      <MenuOptions />
     </Layout.Header>
   );
 }

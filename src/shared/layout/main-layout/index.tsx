@@ -1,6 +1,7 @@
 import { Layout, theme } from "antd";
 import Side from "./side";
 import Header from "./header";
+import { Outlet } from "react-router-dom";
 
 const { Content } = Layout;
 
@@ -27,7 +28,7 @@ export default function MainLayout() {
             borderRadius: borderRadiusLG,
           }}
         >
-          Content
+          <Outlet />
         </Content>
       </Layout>
     </Layout>
