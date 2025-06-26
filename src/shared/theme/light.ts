@@ -541,7 +541,7 @@ export const light = {
     Table: {
       stickyScrollBarBorderRadius: 100,
       headerSplitColor: "#f0f0f0",
-      headerBg: "rgba(0, 0, 0, 0.02)",
+      headerBg: "#e7ebef",
       footerBg: "rgba(0, 0, 0, 0.02)",
       paddingXXS: 4,
       paddingXS: 8,

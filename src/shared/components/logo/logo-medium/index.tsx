@@ -1,12 +1,17 @@
 import { Image } from "antd";
 import logoMedium from "@/assets/denvio-logo.png";
-export default function LogoMedium() {
+
+interface ILogoMediumProps {
+  width?: string | number;
+}
+
+export default function LogoMedium({ width = "100%" }: ILogoMediumProps) {
   return (
     <Image
       src={logoMedium}
       alt="Logo Medium"
       preview={false}
-      style={{ width: "100%", height: "auto" }}
+      style={{ width, height: "auto" }}
     />
   );
 }

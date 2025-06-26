@@ -5,11 +5,13 @@ import { useSearchParams } from "react-router-dom";
 
 interface IHeaderPageProps {
   title: string;
+  placeholder?: string;
   showSearch?: boolean;
 }
 
 export default function HeaderPage({
   title,
+  placeholder = "Pesquise",
   showSearch = true,
 }: IHeaderPageProps) {
   const theme = useThemeStore((state) => state.theme);
@@ -55,7 +57,7 @@ export default function HeaderPage({
       {showSearch && (
         <Col>
           <Input.Search
-            placeholder="Pesquise um usuário"
+            placeholder={placeholder}
             style={{
               minWidth: 300,
               width: 600,

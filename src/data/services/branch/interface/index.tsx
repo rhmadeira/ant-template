@@ -1,3 +1,5 @@
+import { TBaseRequest } from "@/data/types/default";
+
 export interface ICreateBranch {
   nome?: string;
   cnpj?: string;
@@ -29,6 +31,7 @@ export interface ICreateBranch {
   possuiCertificado?: boolean;
   listaIPs?: string;
 }
+
 export interface IUpdateBranch {
   id: string;
   nome?: string;
@@ -93,4 +96,11 @@ export interface IBranchResponse {
   certificadoDigitalId?: string;
   possuiCertificado?: boolean;
   listaIPs?: string;
+}
+export interface IGetAllFilialParams extends TBaseRequest {
+  id?: string;
+  nome?: string;
+  cnpj?: string;
+  uf?: string;
+  cidade?: string;
 }
