@@ -1,4 +1,4 @@
-import { Layout, theme } from "antd";
+import { Layout } from "antd";
 import Side from "./side";
 import Header from "./header";
 import { Outlet } from "react-router-dom";
@@ -6,9 +6,9 @@ import { Outlet } from "react-router-dom";
 const { Content } = Layout;
 
 export default function MainLayout() {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  // const {
+  //   token: { colorBgContainer, borderRadiusLG },
+  // } = theme.useToken();
 
   return (
     <Layout
@@ -21,11 +21,11 @@ export default function MainLayout() {
         <Header />
         <Content
           style={{
-            margin: "24px 16px",
-            padding: 24,
+            margin: "8px 8px",
+            padding: 0,
             minHeight: 280,
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
+            // background: colorBgContainer,
+            // borderRadius: borderRadiusLG,
           }}
         >
           <Outlet />

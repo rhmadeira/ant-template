@@ -1,5 +1,7 @@
 import Authenticated from "@/pages/authenticated";
+import Branches from "@/pages/authenticated/branches";
 import Home from "@/pages/authenticated/home";
+import Users from "@/pages/authenticated/users";
 import NoAuthenticated from "@/pages/no-authenticated";
 import Login from "@/pages/no-authenticated/login";
 import MainLayout from "@/shared/layout/main-layout";
@@ -21,6 +23,14 @@ export const router = createBrowserRouter([
           {
             path: "home",
             element: <Home />,
+          },
+          {
+            path: "usuarios",
+            element: <Users />,
+          },
+          {
+            path: "filiais",
+            element: <Branches />,
           },
         ],
       },

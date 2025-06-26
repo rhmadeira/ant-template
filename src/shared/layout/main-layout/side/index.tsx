@@ -1,19 +1,27 @@
 import { Button, Col, Layout, Menu, Row } from "antd";
 import {
+  ApartmentOutlined,
+  HomeOutlined,
   LeftOutlined,
   RightOutlined,
   UserOutlined,
-  VideoCameraOutlined,
 } from "@ant-design/icons";
 import { useSideStore } from "@/data/stores/side-store";
 import LogoFull from "@/shared/components/logo/logo-full";
 import LogoShort from "@/shared/components/logo/logo-short";
 import { useThemeStore } from "@/data/stores/theme-store";
+import { useNavigate } from "react-router-dom";
 
 export default function Side() {
   const collapsed = useSideStore((state) => state.collapsed);
   const toggleCollapse = useSideStore((state) => state.toggleCollapse);
   const theme = useThemeStore((state) => state.theme);
+  const navigate = useNavigate();
+
+  const handleClickMenuItem = (key: string) => {
+    navigate(`/${key}`);
+  };
+
   return (
     <div
       style={{
@@ -95,6 +103,7 @@ export default function Side() {
           defaultOpenKeys={["menu"]}
           mode="inline"
           defaultSelectedKeys={["1"]}
+          onClick={({ key }) => handleClickMenuItem(key)}
           style={{
             marginTop: 30,
           }}
@@ -104,20 +113,25 @@ export default function Side() {
               label: "Menu",
               style: {
                 fontWeight: "bold",
-                // fontSize: 16,
+                fontSize: 16,
                 textAlign: collapsed ? "center" : "left",
               },
               type: "group",
               children: [
                 {
                   key: "home",
-                  icon: <UserOutlined />,
+                  icon: <HomeOutlined />,
                   label: "Home",
                 },
                 {
-                  key: "usuario",
-                  icon: <VideoCameraOutlined />,
+                  key: "usuarios",
+                  icon: <UserOutlined />,
                   label: "Usuários",
+                },
+                {
+                  key: "filiais",
+                  icon: <ApartmentOutlined />,
+                  label: "Filiais",
                 },
               ],
             },
