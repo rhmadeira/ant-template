@@ -1,7 +1,7 @@
 import { Checkbox, CheckboxProps } from "antd";
 
 interface CheckboxCustomProps extends CheckboxProps {
-  label: string;
+  label?: string;
 }
 
 export default function CheckboxCustom({

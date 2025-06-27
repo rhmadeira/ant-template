@@ -2,23 +2,26 @@ import { userService } from "@/data/services/user";
 import { IUserResponse } from "@/data/services/user/interface";
 // import { usePermissionsStore } from "@/data/stores/permission-store";
 import HeaderPage from "@/shared/components/header";
+import TableActionDropdown from "@/shared/components/table-action-dropdown";
 import TableCustom from "@/shared/components/table-custom";
 import { LabelOptionItem } from "@/shared/components/table-custom/label-option-item";
+import TableHeader from "@/shared/components/table-header";
 import { EnumUserKey } from "@/shared/enums/keys";
 import {
   DeleteOutlined,
   EditOutlined,
   KeyOutlined,
-  MoreOutlined,
+  PlusOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Avatar, Button, Col, Dropdown, MenuProps, Row, Tag } from "antd";
+import { Avatar, Col, Row, Tag } from "antd";
 import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useMatch, useNavigate } from "react-router-dom";
 
 export default function Users() {
   // const hasPermission = usePermissionsStore((state) => state.hasPermission);
+  const match = useMatch("/usuario");
   const navigate = useNavigate();
   const tableWrapperRef = useRef<HTMLDivElement>(null);
 
@@ -50,7 +53,7 @@ export default function Users() {
   };
 
   const handleClickOption = (path: string) => {
-    navigate(`/usuarios/${path}`);
+    navigate(`/usuario/${path}`);
   };
 
   useEffect(() => {
@@ -81,9 +84,8 @@ export default function Users() {
         }}
       >
         <Col
-          span={24}
+          span={match ? 24 : 16}
           style={{
-            height: 200,
             padding: 10,
           }}
         >
@@ -91,6 +93,27 @@ export default function Users() {
             <TableCustom
               dataSource={dataSource}
               pagination={false}
+              rowKey={"id"}
+              showHeader={true}
+              title={() => {
+                return (
+                  <TableHeader
+                    buttonPositionEnd
+                    buttons={[
+                      {
+                        type: "primary",
+                        children: "Novo Usuário",
+                        icon: <PlusOutlined />,
+                        // disabled: !hasPermission("CreateUser"),
+                        onClick: () => {
+                          navigate("criar");
+                        },
+                      },
+                    ]}
+                  />
+                );
+              }}
+              loading={user.isLoading || user.isFetchingNextPage}
               columns={[
                 {
                   key: "nome",
@@ -133,69 +156,60 @@ export default function Users() {
                 {
                   key: "actions",
                   title: "Ações",
-                  width: 50,
+                  width: 60,
                   align: "center",
-                  dataIndex: "actions",
-                  render: (value: IUserResponse) => {
-                    const optionsMenu: MenuProps["items"] = [
-                      {
-                        key: "1",
-                        label: <LabelOptionItem title="Editar" />,
-                        icon: <EditOutlined />,
-                        // disabled: value?.deleted || !hasPermission("UpdateUser"),
-                        onClick: () => handleClickOption(`editar/${value.id}`),
-                      },
-                      {
-                        key: "2",
-                        icon: <KeyOutlined />,
-                        label: <LabelOptionItem title="Permissões" />,
-                        // disabled:
-                        //   value?.deleted || !hasPermission("BindUserPermission"),
-                        onClick: () =>
-                          handleClickOption(`permissoes-usuario/${value.id}`),
-                      },
-                      {
-                        key: "3",
-                        icon: <UsergroupAddOutlined />,
-                        label: <LabelOptionItem title="Grupos" />,
-                        // disabled:
-                        //   value?.deleted || !hasPermission("BindUserRole"),
-                        onClick: () =>
-                          handleClickOption(`grupo-usuario/${value.id}`),
-                      },
-                      {
-                        key: "4",
-                        icon: <DeleteOutlined />,
-                        label: <LabelOptionItem title="Deletar" />,
-                        // disabled: !hasPermission("DeleteUser"),
-                        onClick: handleDeleteUser,
-                      },
-                    ];
-
-                    return (
-                      <Col>
-                        <Dropdown
-                          disabled={value?.deleted}
-                          trigger={["click"]}
-                          menu={{ items: optionsMenu }}
-                        >
-                          <Button>
-                            <MoreOutlined />
-                          </Button>
-                        </Dropdown>
-                      </Col>
-                    );
-                  },
+                  render: (value: IUserResponse) => (
+                    <TableActionDropdown
+                      value={value}
+                      items={(user) => [
+                        {
+                          key: "1",
+                          label: <LabelOptionItem title="Editar" />,
+                          icon: <EditOutlined />,
+                          onClick: () => handleClickOption(`${user.id}`),
+                        },
+                        {
+                          key: "2",
+                          icon: <KeyOutlined />,
+                          label: <LabelOptionItem title="Permissões" />,
+                          onClick: () =>
+                            handleClickOption(`permissao/${user.id}`),
+                        },
+                        {
+                          key: "3",
+                          icon: <UsergroupAddOutlined />,
+                          label: <LabelOptionItem title="Grupos" />,
+                          onClick: () => handleClickOption(`grupo/${user.id}`),
+                        },
+                        {
+                          key: "4",
+                          icon: <DeleteOutlined />,
+                          label: <LabelOptionItem title="Deletar" />,
+                          onClick: () => handleDeleteUser(),
+                        },
+                      ]}
+                      disabled={value?.deleted}
+                    />
+                  ),
                 },
               ]}
               scroll={{
                 x: "max-content",
                 y: 900,
               }}
-              loading={user.isLoading || user.isFetchingNextPage}
             />
           </div>
         </Col>
+        {!match && (
+          <Col
+            span={8}
+            style={{
+              padding: 10,
+            }}
+          >
+            <Outlet />
+          </Col>
+        )}
       </Row>
     </>
   );

@@ -57,7 +57,7 @@ export default function Branches() {
   };
 
   const handleClickOption = (path: string) => {
-    navigate(`/usuarios/${path}`);
+    navigate(`/usuario/${path}`);
   };
 
   const columns: TableColumnsType<IBranchResponse> = [

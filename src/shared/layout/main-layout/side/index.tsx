@@ -1,16 +1,11 @@
 import { Button, Col, Layout, Menu, Row } from "antd";
-import {
-  ApartmentOutlined,
-  HomeOutlined,
-  LeftOutlined,
-  RightOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { useSideStore } from "@/data/stores/side-store";
 import LogoFull from "@/shared/components/logo/logo-full";
 import LogoShort from "@/shared/components/logo/logo-short";
 import { useThemeStore } from "@/data/stores/theme-store";
 import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "@/shared/constants/app-routes";
 
 export default function Side() {
   const collapsed = useSideStore((state) => state.collapsed);
@@ -21,6 +16,12 @@ export default function Side() {
   const handleClickMenuItem = (key: string) => {
     navigate(`/${key}`);
   };
+
+  const menuItems = APP_ROUTES.filter((r) => r.showInSidebar).map((route) => ({
+    key: route.path,
+    icon: route.icon,
+    label: route.label,
+  }));
 
   return (
     <div
@@ -117,23 +118,7 @@ export default function Side() {
                 textAlign: collapsed ? "center" : "left",
               },
               type: "group",
-              children: [
-                {
-                  key: "home",
-                  icon: <HomeOutlined />,
-                  label: "Home",
-                },
-                {
-                  key: "usuarios",
-                  icon: <UserOutlined />,
-                  label: "Usuários",
-                },
-                {
-                  key: "filiais",
-                  icon: <ApartmentOutlined />,
-                  label: "Filiais",
-                },
-              ],
+              children: menuItems,
             },
           ]}
         />

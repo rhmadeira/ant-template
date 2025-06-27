@@ -22,3 +22,11 @@ export interface IUserResponse {
 export interface IUserGetAllParams extends TBaseRequest {
   nome?: string;
 }
+
+export interface IUserForm {
+  id?: string;
+  nome: string;
+  email: string;
+  admin: boolean;
+  deleted?: boolean;
+}

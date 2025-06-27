@@ -10,3 +10,7 @@ export enum EnumUserMutationKey {
 export enum EnumBranchKey {
   getAll = "getAllBranches",
 }
+
+export enum EnumGroupKey {
+  getAll = "getAllGroups",
+}

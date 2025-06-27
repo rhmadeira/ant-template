@@ -1,9 +1,7 @@
 import Authenticated from "@/pages/authenticated";
-import Branches from "@/pages/authenticated/branches";
-import Home from "@/pages/authenticated/home";
-import Users from "@/pages/authenticated/users";
 import NoAuthenticated from "@/pages/no-authenticated";
 import Login from "@/pages/no-authenticated/login";
+import { APP_ROUTES } from "@/shared/constants/app-routes";
 import MainLayout from "@/shared/layout/main-layout";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
@@ -18,20 +16,13 @@ export const router = createBrowserRouter([
         children: [
           {
             path: "/",
-            element: <Navigate to={"/home"} />,
+            element: <Navigate to="/home" />,
           },
-          {
-            path: "home",
-            element: <Home />,
-          },
-          {
-            path: "usuarios",
-            element: <Users />,
-          },
-          {
-            path: "filiais",
-            element: <Branches />,
-          },
+          ...APP_ROUTES.map(({ path, element, children = [] }) => ({
+            path,
+            element,
+            children,
+          })),
         ],
       },
     ],

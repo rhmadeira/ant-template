@@ -1,5 +1,6 @@
 import { useThemeStore } from "@/data/stores/theme-store";
-import { Col, Input, Row, Typography } from "antd";
+import { RollbackOutlined } from "@ant-design/icons";
+import { Button, Col, Input, Row, Typography } from "antd";
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -7,12 +8,16 @@ interface IHeaderPageProps {
   title: string;
   placeholder?: string;
   showSearch?: boolean;
+  showBack?: boolean;
+  onBack?: () => void;
 }
 
 export default function HeaderPage({
   title,
   placeholder = "Pesquise",
   showSearch = true,
+  onBack,
+  showBack = false,
 }: IHeaderPageProps) {
   const theme = useThemeStore((state) => state.theme);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -29,6 +34,14 @@ export default function HeaderPage({
       searchParams.delete("search");
     }
     setSearchParams(searchParams);
+  };
+
+  const handleBack = () => {
+    if (onBack) {
+      onBack();
+    } else {
+      window.history.back();
+    }
   };
 
   return (
@@ -52,6 +65,17 @@ export default function HeaderPage({
           margin: 0,
         }}
       >
+        {showBack && (
+          <Button
+            shape="circle"
+            size="small"
+            icon={<RollbackOutlined />}
+            onClick={handleBack}
+            style={{
+              marginRight: 10,
+            }}
+          />
+        )}
         <Col>
           <Typography.Title
             style={{

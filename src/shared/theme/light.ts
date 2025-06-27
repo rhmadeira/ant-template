@@ -1116,7 +1116,7 @@ export const light = {
       colorPrimaryHover: "#3c5978",
       colorPrimaryBorder: "#99a8b8",
       colorPrimaryActive: "#0e2c4d",
-      colorPrimary: "#11345a",
+      colorPrimary: "#2F80ED",
       colorLinkHover: "#3c5978",
       colorLinkActive: "#0e2c4d",
       colorLink: "#11345a",
