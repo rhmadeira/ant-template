@@ -1,11 +1,9 @@
 // src/data/routes/app-routes.ts
 import {
-  HomeOutlined,
   UserOutlined,
   ApartmentOutlined,
   GroupOutlined,
 } from "@ant-design/icons";
-import Home from "@/pages/authenticated/home";
 import Users from "@/pages/authenticated/users";
 import Branches from "@/pages/authenticated/branches";
 import Groups from "@/pages/authenticated/groups";
@@ -15,13 +13,13 @@ import EditUser from "@/pages/authenticated/users/edit-user";
 import CreateUser from "@/pages/authenticated/users/create-user";
 
 export const APP_ROUTES = [
-  {
-    path: "home",
-    element: <Home />,
-    label: "Home",
-    icon: <HomeOutlined />,
-    showInSidebar: true,
-  },
+  // {
+  //   path: "home",
+  //   element: <Home />,
+  //   label: "Home",
+  //   icon: <HomeOutlined />,
+  //   showInSidebar: true,
+  // },
   {
     path: "usuario",
     element: <Users />,

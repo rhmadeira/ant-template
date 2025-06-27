@@ -172,7 +172,7 @@ export default function Branches() {
     {
       key: "actions",
       title: "Ações",
-      width: 100,
+      width: 80,
       fixed: "right",
       align: "center",
       dataIndex: "actions",

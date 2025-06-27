@@ -5,7 +5,7 @@ import { EnumGroupKey } from "@/shared/enums/keys";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Button, Col, Dropdown, MenuProps, Row } from "antd";
 import { useRef } from "react";
-import CardInformation from "./card-information";
+import CardInformation from "./_components/card-information";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useMatch } from "react-router-dom";
 import TableHeader from "@/shared/components/table-header";
@@ -77,6 +77,13 @@ export default function Groups() {
               pagination={false}
               showHeader={true}
               rowKey="nome"
+              onRow={(record) => {
+                return {
+                  onDoubleClick: () => {
+                    handleClickOption(`${record.id}`);
+                  }, // double click row
+                };
+              }}
               title={() => {
                 return (
                   <TableHeader
@@ -112,7 +119,7 @@ export default function Groups() {
                   title: "Ações",
                   key: "actions",
                   align: "center",
-                  width: 60,
+                  width: 80,
                   fixed: "right",
                   render: (value: IGroupResponse) => {
                     const optionsMenu: MenuProps["items"] = [

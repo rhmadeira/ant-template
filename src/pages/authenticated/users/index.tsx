@@ -18,6 +18,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { Avatar, Col, Row, Tag } from "antd";
 import { useEffect, useRef } from "react";
 import { Outlet, useMatch, useNavigate } from "react-router-dom";
+import CardInformation from "./_components/card-information";
 
 export default function Users() {
   // const hasPermission = usePermissionsStore((state) => state.hasPermission);
@@ -84,7 +85,7 @@ export default function Users() {
         }}
       >
         <Col
-          span={match ? 24 : 16}
+          span={14}
           style={{
             padding: 10,
           }}
@@ -95,6 +96,14 @@ export default function Users() {
               pagination={false}
               rowKey={"id"}
               showHeader={true}
+              loading={user.isLoading || user.isFetchingNextPage}
+              onRow={(record) => {
+                return {
+                  onDoubleClick: () => {
+                    handleClickOption(`${record.id}`);
+                  }, // double click row
+                };
+              }}
               title={() => {
                 return (
                   <TableHeader
@@ -113,7 +122,6 @@ export default function Users() {
                   />
                 );
               }}
-              loading={user.isLoading || user.isFetchingNextPage}
               columns={[
                 {
                   key: "nome",
@@ -200,16 +208,14 @@ export default function Users() {
             />
           </div>
         </Col>
-        {!match && (
-          <Col
-            span={8}
-            style={{
-              padding: 10,
-            }}
-          >
-            <Outlet />
-          </Col>
-        )}
+        <Col
+          span={10}
+          style={{
+            padding: 10,
+          }}
+        >
+          {match ? <CardInformation /> : <Outlet />}
+        </Col>
       </Row>
     </>
   );

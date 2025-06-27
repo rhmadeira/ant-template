@@ -16,13 +16,17 @@ export const router = createBrowserRouter([
         children: [
           {
             path: "/",
-            element: <Navigate to="/home" />,
+            element: <Navigate to="/usuario" />,
           },
           ...APP_ROUTES.map(({ path, element, children = [] }) => ({
             path,
             element,
             children,
           })),
+          {
+            path: "*",
+            element: <Navigate to="/usuario" replace />,
+          },
         ],
       },
     ],
