@@ -6,3 +6,7 @@ export enum EnumUserMutationKey {
   update = "updateUser",
   delete = "deleteUser",
 }
+
+export enum EnumBranchKey {
+  getAll = "getAllBranches",
+}

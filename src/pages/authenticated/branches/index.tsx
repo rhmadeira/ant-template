@@ -6,7 +6,7 @@ import HeaderPage from "@/shared/components/header";
 import TableCustom from "@/shared/components/table-custom";
 import ColumnFilter from "@/shared/components/table-custom/column-filter";
 import { LabelOptionItem } from "@/shared/components/table-custom/label-option-item";
-import { EnumUserKey } from "@/shared/enums/keys";
+import { EnumBranchKey } from "@/shared/enums/keys";
 import {
   EditOutlined,
   KeyOutlined,
@@ -14,33 +14,42 @@ import {
   DeleteOutlined,
   MoreOutlined,
 } from "@ant-design/icons";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { Button, Col, Dropdown, MenuProps, Row, TableColumnsType } from "antd";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import FilterBranches from "./components/filter-branches";
-import { useDebounce } from "@uidotdev/usehooks";
+import { useEffect, useRef } from "react";
 
 export default function Branches() {
   // const hasPermission = usePermissionsStore((state) => state.hasPermission);
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const CNPJ = useDebounce(searchParams.get("cnpj") || "", 500);
-  const search = useDebounce(searchParams.get("search") || "", 500);
-  const cidade = searchParams.get("cidade") || "";
-  const uf = searchParams.get("uf") || "";
+  // const [searchParams] = useSearchParams();
+  const tableWrapperRef = useRef<HTMLDivElement>(null);
+  // const CNPJ = useDebounce(searchParams.get("cnpj") || "", 500);
+  // const search = useDebounce(searchParams.get("search") || "", 500);
+  // const cidade = searchParams.get("cidade") || "";
+  // const uf = searchParams.get("uf") || "";
 
-  const branches = useQuery({
-    queryKey: [EnumUserKey.getAll],
-    queryFn: () =>
-      branchService.getAll({
-        cnpj: CNPJ,
-        nome: search,
-        cidade,
-        uf,
-        page: 1,
-        take: 10,
-      }),
+  const branch = useInfiniteQuery({
+    queryKey: [EnumBranchKey.getAll],
+    queryFn: async ({ pageParam = 0 }) => {
+      const result = await branchService.getAll({ page: pageParam, take: 20 });
+      return result;
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      const totalLoaded = allPages.reduce((total, page) => {
+        const list = Array.isArray(page?.value) ? page.value : [];
+        return total + list.length;
+      }, 0);
+
+      return lastPage?.count && totalLoaded < lastPage.count
+        ? allPages.length
+        : undefined;
+    },
+    staleTime: 1000 * 60 * 20,
   });
+  const dataSource = branch.data?.pages.flatMap((page) => page.value) ?? [];
 
   const handleDeleteUser = () => {
     // Implement the delete user logic here
@@ -56,7 +65,7 @@ export default function Branches() {
       key: "cnpj",
       title: "CNPJ",
       dataIndex: "cnpj",
-      width: 300,
+      width: 200,
     },
     {
       key: "razaoSocial",
@@ -221,9 +230,28 @@ export default function Branches() {
   const { visibleColumns, setVisibleColumns, filteredColumns, filterOptions } =
     useColumnVisibility(columns, "colunas_filiais");
 
+  useEffect(() => {
+    if (!tableWrapperRef.current) return;
+    const body = tableWrapperRef.current?.querySelector(".ant-table-body");
+    if (!body) return;
+
+    const handleScroll = () => {
+      const nearBottom =
+        body.scrollTop + body.clientHeight >= body.scrollHeight - 50;
+
+      if (nearBottom && branch.hasNextPage && !branch.isFetchingNextPage) {
+        branch.fetchNextPage();
+      }
+    };
+
+    body.addEventListener("scroll", handleScroll);
+    return () => body.removeEventListener("scroll", handleScroll);
+  }, [tableWrapperRef, branch]);
+
   return (
     <>
       <HeaderPage title="Filiais" placeholder="Pesquise por uma filial" />
+
       <Row
         style={{
           padding: 0,
@@ -231,14 +259,13 @@ export default function Branches() {
         }}
       >
         <Col
-          span={4}
+          span={5}
           style={{
             padding: 10,
           }}
         >
           <Row
             style={{
-              height: "100%",
               borderRadius: 4,
               backgroundColor: "white",
               padding: 10,
@@ -253,21 +280,24 @@ export default function Branches() {
           </Row>
         </Col>
         <Col
-          span={20}
+          span={19}
           style={{
-            height: 200,
             padding: 10,
           }}
         >
-          <TableCustom
-            dataSource={branches.data?.value}
-            scroll={{ x: 1500 }}
-            columns={filteredColumns}
-            rowKey={(record: IBranchResponse) => String(record.id)}
-            style={{
-              minWidth: 800,
-            }}
-          />
+          <div ref={tableWrapperRef}>
+            <TableCustom
+              dataSource={dataSource}
+              pagination={false}
+              columns={filteredColumns}
+              scroll={{
+                x: 1400,
+                y: 900,
+              }}
+              rowKey={(record: IBranchResponse) => String(record.id)}
+              loading={branch.isLoading || branch.isFetchingNextPage}
+            />
+          </div>
         </Col>
       </Row>
     </>

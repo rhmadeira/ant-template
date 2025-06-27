@@ -1,3 +1,5 @@
+import { TBaseRequest } from "@/data/types/default";
+
 export interface ICreateUser {
   name: string;
   email: string;
@@ -15,4 +17,8 @@ export interface IUserResponse {
   email: string;
   admin: boolean;
   deleted?: boolean;
+}
+
+export interface IUserGetAllParams extends TBaseRequest {
+  nome?: string;
 }

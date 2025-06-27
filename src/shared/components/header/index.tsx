@@ -34,39 +34,50 @@ export default function HeaderPage({
   return (
     <Row
       style={{
-        display: "flex",
-        alignItems: "center",
-        backgroundColor: theme.token?.colorPrimary,
-        height: 120,
-        padding: "0 20px",
+        width: "100%",
         margin: 0,
+        padding: 0,
+        backgroundColor: theme.token?.colorBgContainer,
+        boxShadow: theme.token?.boxShadowSecondary,
       }}
     >
-      <Col>
-        <Typography.Title
-          style={{
-            color: theme.token?.colorTextLightSolid,
-            margin: 0,
-          }}
-          level={2}
-        >
-          {title}
-        </Typography.Title>
-      </Col>
-      <Col style={{ flex: 1 }} />
-      {showSearch && (
+      <Row
+        style={{
+          display: "flex",
+          alignItems: "center",
+          backgroundColor: theme.token?.colorPrimary,
+          height: 120,
+          width: "100%",
+          padding: "0 20px",
+          margin: 0,
+        }}
+      >
         <Col>
-          <Input.Search
-            placeholder={placeholder}
+          <Typography.Title
             style={{
-              minWidth: 300,
-              width: 600,
+              color: theme.token?.colorTextLightSolid,
+              margin: 0,
             }}
-            value={inputValue}
-            onChange={handleSearch}
-          />
+            level={2}
+          >
+            {title}
+          </Typography.Title>
         </Col>
-      )}
+        <Col style={{ flex: 1 }} />
+        {showSearch && (
+          <Col>
+            <Input.Search
+              placeholder={placeholder}
+              style={{
+                minWidth: 300,
+                width: 600,
+              }}
+              value={inputValue}
+              onChange={handleSearch}
+            />
+          </Col>
+        )}
+      </Row>
     </Row>
   );
 }

@@ -21,11 +21,8 @@ export default function MainLayout() {
         <Header />
         <Content
           style={{
-            // margin: "8px 8px",
             padding: 0,
-            minHeight: 280,
-            // background: colorBgContainer,
-            // borderRadius: borderRadiusLG,
+            overflow: "auto",
           }}
         >
           <Outlet />
