@@ -11,6 +11,8 @@ import EditGroup from "@/pages/authenticated/groups/edit-group";
 import CreateGroup from "@/pages/authenticated/groups/create-group";
 import EditUser from "@/pages/authenticated/users/edit-user";
 import CreateUser from "@/pages/authenticated/users/create-user";
+import CreateBranch from "@/pages/authenticated/branches/create-branch";
+import EditBranch from "@/pages/authenticated/branches/edit-branch";
 
 export const APP_ROUTES = [
   // {
@@ -69,8 +71,13 @@ export const APP_ROUTES = [
     showInSidebar: true,
   },
   {
-    path: "filial/cadastro",
-    element: <div>Cadastro de Filial</div>,
+    path: "filial/criar",
+    element: <CreateBranch />,
+    showInSidebar: false,
+  },
+  {
+    path: "filial/:id",
+    element: <EditBranch />,
     showInSidebar: false,
   },
   {

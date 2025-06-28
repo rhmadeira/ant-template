@@ -11,19 +11,22 @@ import {
   KeyOutlined,
   UsergroupAddOutlined,
   DeleteOutlined,
+  FilterOutlined,
 } from "@ant-design/icons";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Col, Row, TableColumnsType } from "antd";
+import { Button, Col, Row, TableColumnsType } from "antd";
 import { useNavigate } from "react-router-dom";
 import FilterBranches from "./components/filter-branches";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import TableActionDropdown from "@/shared/components/table-action-dropdown";
+import TableHeader from "@/shared/components/table-header";
 
 export default function Branches() {
   // const hasPermission = usePermissionsStore((state) => state.hasPermission);
   const navigate = useNavigate();
   // const [searchParams] = useSearchParams();
   const tableWrapperRef = useRef<HTMLDivElement>(null);
+  const [showFilter, setShowFilter] = useState(false);
   // const CNPJ = useDebounce(searchParams.get("cnpj") || "", 500);
   // const search = useDebounce(searchParams.get("search") || "", 500);
   // const cidade = searchParams.get("cidade") || "";
@@ -56,7 +59,7 @@ export default function Branches() {
   };
 
   const handleClickOption = (path: string) => {
-    navigate(`/usuario/${path}`);
+    navigate(`/filial/${path}`);
   };
 
   const columns: TableColumnsType<IBranchResponse> = [
@@ -174,45 +177,48 @@ export default function Branches() {
       width: 80,
       fixed: "right",
       align: "center",
-      dataIndex: "actions",
-      render: (value: IBranchResponse) => (
-        <TableActionDropdown
-          value={value}
-          items={() => [
-            {
-              key: "1",
-              label: <LabelOptionItem title="Editar" />,
-              icon: <EditOutlined />,
-              // disabled: value?.deleted || !hasPermission("UpdateUser"),
-              onClick: () => handleClickOption(`editar/${value.id}`),
-            },
-            {
-              key: "2",
-              icon: <KeyOutlined />,
-              label: <LabelOptionItem title="Permissões" />,
-              // disabled:
-              //   value?.deleted || !hasPermission("BindUserPermission"),
-              onClick: () =>
-                handleClickOption(`permissoes-usuario/${value.id}`),
-            },
-            {
-              key: "3",
-              icon: <UsergroupAddOutlined />,
-              label: <LabelOptionItem title="Grupos" />,
-              // disabled:
-              //   value?.deleted || !hasPermission("BindUserRole"),
-              onClick: () => handleClickOption(`grupo-usuario/${value.id}`),
-            },
-            {
-              key: "4",
-              icon: <DeleteOutlined />,
-              label: <LabelOptionItem title="Deletar" />,
-              // disabled: !hasPermission("DeleteUser"),
-              onClick: handleDeleteUser,
-            },
-          ]}
-        />
-      ),
+      render: (value: IBranchResponse) => {
+        console.log("🚀 ~ Branches ~ value:", value);
+
+        return (
+          <TableActionDropdown
+            value={value}
+            items={(branch) => [
+              {
+                key: "1",
+                label: <LabelOptionItem title="Editar" />,
+                icon: <EditOutlined />,
+                // disabled: value?.deleted || !hasPermission("UpdateUser"),
+                onClick: () => handleClickOption(`${branch.id}`),
+              },
+              {
+                key: "2",
+                icon: <KeyOutlined />,
+                label: <LabelOptionItem title="Permissões" />,
+                // disabled:
+                //   value?.deleted || !hasPermission("BindUserPermission"),
+                onClick: () =>
+                  handleClickOption(`permissoes-usuario/${value.id}`),
+              },
+              {
+                key: "3",
+                icon: <UsergroupAddOutlined />,
+                label: <LabelOptionItem title="Grupos" />,
+                // disabled:
+                //   value?.deleted || !hasPermission("BindUserRole"),
+                onClick: () => handleClickOption(`grupo-usuario/${value.id}`),
+              },
+              {
+                key: "4",
+                icon: <DeleteOutlined />,
+                label: <LabelOptionItem title="Deletar" />,
+                // disabled: !hasPermission("DeleteUser"),
+                onClick: handleDeleteUser,
+              },
+            ]}
+          />
+        );
+      },
     },
   ];
 
@@ -248,28 +254,37 @@ export default function Branches() {
         }}
       >
         <Col
-          span={5}
+          span={showFilter ? 6 : 1}
           style={{
             padding: 10,
           }}
         >
-          <Row
-            style={{
-              borderRadius: 4,
-              backgroundColor: "white",
-              padding: 10,
-            }}
-          >
-            <FilterBranches />
-            <ColumnFilter
-              value={visibleColumns}
-              options={filterOptions}
-              onChange={setVisibleColumns}
+          {!showFilter && (
+            <Button
+              style={{ marginBottom: 10 }}
+              onClick={() => setShowFilter(true)}
+              icon={<FilterOutlined />}
             />
-          </Row>
+          )}
+          {showFilter && (
+            <Row
+              style={{
+                borderRadius: 4,
+                backgroundColor: "white",
+                padding: 10,
+              }}
+            >
+              <FilterBranches setShowFilter={setShowFilter} />
+              <ColumnFilter
+                value={visibleColumns}
+                options={filterOptions}
+                onChange={setVisibleColumns}
+              />
+            </Row>
+          )}
         </Col>
         <Col
-          span={19}
+          span={showFilter ? 18 : 23}
           style={{
             padding: 10,
           }}
@@ -278,6 +293,23 @@ export default function Branches() {
             <TableCustom
               dataSource={dataSource}
               pagination={false}
+              showHeader={true}
+              title={() => (
+                <TableHeader
+                  buttonPositionEnd
+                  buttons={[
+                    {
+                      type: "primary",
+                      children: "Nova Filial",
+                      icon: <EditOutlined />,
+                      // disabled: !hasPermission("CreateBranch"),
+                      onClick: () => {
+                        navigate("criar");
+                      },
+                    },
+                  ]}
+                />
+              )}
               columns={filteredColumns}
               scroll={{
                 x: 1400,
