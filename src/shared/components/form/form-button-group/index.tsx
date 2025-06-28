@@ -38,12 +38,16 @@ export default function FormButtonGroup({
       }}
     >
       <Form.Item noStyle>
-        <Button type="default" onClick={handleClear} disabled={clearDisabled}>
+        <Button
+          type="default"
+          onClick={handleClear}
+          disabled={clearDisabled || loading}
+        >
           Limpar
         </Button>
       </Form.Item>
       <Form.Item>
-        <Button type="default" onClick={handleCancel}>
+        <Button disabled={loading} type="default" onClick={handleCancel}>
           Cancelar
         </Button>
       </Form.Item>

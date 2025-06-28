@@ -1,13 +1,14 @@
 import InputCustom from "@/shared/components/form/input-custom";
 import { Controller, UseFormReturn } from "react-hook-form";
-import { Form } from "antd";
+import { Form, Skeleton } from "antd";
 import { IGroupForm } from "@/data/services/group/interface";
 
 interface IFormGroupProps {
   form: UseFormReturn<IGroupForm, unknown>;
+  loading?: boolean;
 }
 
-export default function FormGroup({ form }: IFormGroupProps) {
+export default function FormGroup({ form, loading }: IFormGroupProps) {
   return (
     <>
       <Controller
@@ -32,7 +33,11 @@ export default function FormGroup({ form }: IFormGroupProps) {
             validateStatus={fieldState.error ? "error" : ""}
             help={fieldState.error ? fieldState.error.message : ""}
           >
-            <InputCustom {...field} />
+            {loading ? (
+              <Skeleton.Input active style={{ width: "100%" }} />
+            ) : (
+              <InputCustom {...field} />
+            )}
           </Form.Item>
         )}
       />
@@ -58,7 +63,11 @@ export default function FormGroup({ form }: IFormGroupProps) {
             validateStatus={fieldState.error ? "error" : ""}
             help={fieldState.error ? fieldState.error.message : ""}
           >
-            <InputCustom {...field} />
+            {loading ? (
+              <Skeleton.Input active style={{ width: "100%" }} />
+            ) : (
+              <InputCustom {...field} />
+            )}
           </Form.Item>
         )}
       />

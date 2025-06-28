@@ -1,5 +1,6 @@
 export enum EnumUserKey {
   getAll = "getAllUsers",
+  getById = "getUserById",
 }
 export enum EnumUserMutationKey {
   create = "createUser",
@@ -9,8 +10,10 @@ export enum EnumUserMutationKey {
 
 export enum EnumBranchKey {
   getAll = "getAllBranches",
+  getById = "getBranchById",
 }
 
 export enum EnumGroupKey {
   getAll = "getAllGroups",
+  getById = "getGroupById",
 }

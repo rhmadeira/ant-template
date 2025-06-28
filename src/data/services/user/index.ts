@@ -8,7 +8,7 @@ import {
 import { api } from "@/data/libs/axios";
 
 const getAll = async ({ page, take }: IUserGetAllParams) => {
-  const { data } = await api.get<TApiResponseModel<IUserResponse>>("/user", {
+  const { data } = await api.get<TApiResponseModel<IUserResponse[]>>("/user", {
     params: {
       _page: page,
       _limit: take,
@@ -18,16 +18,34 @@ const getAll = async ({ page, take }: IUserGetAllParams) => {
 };
 
 const getById = async (id: string) => {
-  console.log("🚀 ~ getById ~ id:", id);
+  const { data } = await api.get<TApiResponseModel<IUserResponse>>(
+    `/user/${id}`
+  );
+  return data;
 };
 
 const create = async (user: ICreateUser) => {
   console.log("🚀 ~ create ~ user:", user);
+  const { data } = await api.post<TApiResponseModel<IUserResponse>>(
+    "/user",
+    user
+  );
+  return data;
 };
 
 const update = async (id: string, user: IUpdateUser) => {
-  console.log("🚀 ~ update ~ id:", id);
-  console.log("🚀 ~ update ~ user:", user);
+  const { data } = await api.put<TApiResponseModel<IUserResponse>>(
+    `/user/${id}`,
+    user
+  );
+  return data;
+};
+
+const deleteUser = async (id: string) => {
+  const { data } = await api.delete<TApiResponseModel<IUserResponse>>(
+    `/user/${id}`
+  );
+  return data;
 };
 
 export const userService = {
@@ -35,4 +53,5 @@ export const userService = {
   getById,
   create,
   update,
+  delete: deleteUser,
 };

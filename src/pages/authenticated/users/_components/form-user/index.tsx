@@ -1,14 +1,15 @@
 import InputCustom from "@/shared/components/form/input-custom";
 import { Controller, UseFormReturn } from "react-hook-form";
-import { Form } from "antd";
+import { Form, Skeleton } from "antd";
 import { IUserForm } from "@/data/services/user/interface";
 import CheckboxCustom from "@/shared/components/form/checkbox-custom";
 
 interface IFormUserProps {
   form: UseFormReturn<IUserForm, unknown>;
+  loading?: boolean;
 }
 
-export default function FormUser({ form }: IFormUserProps) {
+export default function FormUser({ form, loading }: IFormUserProps) {
   return (
     <>
       <Controller
@@ -33,7 +34,11 @@ export default function FormUser({ form }: IFormUserProps) {
             validateStatus={fieldState.error ? "error" : ""}
             help={fieldState.error ? fieldState.error.message : ""}
           >
-            <InputCustom {...field} />
+            {loading ? (
+              <Skeleton.Input active size="small" style={{ width: "100%" }} />
+            ) : (
+              <InputCustom {...field} />
+            )}
           </Form.Item>
         )}
       />
@@ -55,7 +60,11 @@ export default function FormUser({ form }: IFormUserProps) {
             validateStatus={fieldState.error ? "error" : ""}
             help={fieldState.error ? fieldState.error.message : ""}
           >
-            <InputCustom {...field} />
+            {loading ? (
+              <Skeleton.Input active size="small" style={{ width: "100%" }} />
+            ) : (
+              <InputCustom {...field} />
+            )}
           </Form.Item>
         )}
       />
@@ -65,10 +74,14 @@ export default function FormUser({ form }: IFormUserProps) {
         defaultValue={false}
         render={({ field }) => (
           <Form.Item label="Admin" valuePropName="checked" layout="horizontal">
-            <CheckboxCustom
-              {...field}
-              onChange={(e) => field.onChange(e.target.checked)}
-            />
+            {loading ? (
+              <Skeleton.Input active size="small" style={{ width: "100%" }} />
+            ) : (
+              <CheckboxCustom
+                {...field}
+                onChange={(e) => field.onChange(e.target.checked)}
+              />
+            )}
           </Form.Item>
         )}
       />
