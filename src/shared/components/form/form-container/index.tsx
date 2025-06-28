@@ -6,10 +6,11 @@ interface FormContainerProps<T extends FieldValues> {
   title: string;
   description?: string;
   form: UseFormReturn<T>;
-  onFinish: (values: T) => void;
   children: React.ReactNode;
-  onClear?: () => void;
   showButtons?: boolean;
+  onCancel?: () => void;
+  onClear?: () => void;
+  onFinish: (values: T) => void;
 }
 
 export default function FormContainer<T extends FieldValues>({
@@ -20,6 +21,7 @@ export default function FormContainer<T extends FieldValues>({
   children,
   onClear,
   showButtons = true,
+  onCancel,
 }: FormContainerProps<T>) {
   return (
     <Card>
@@ -35,6 +37,7 @@ export default function FormContainer<T extends FieldValues>({
             clearDisabled={!form.formState.isDirty}
             loading={form.formState.isSubmitting}
             onClear={onClear ?? (() => form.reset())}
+            onCancel={onCancel ?? (() => form.reset())}
           />
         )}
       </Form>

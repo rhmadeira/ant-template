@@ -101,7 +101,7 @@ export default function Users() {
                 return {
                   onDoubleClick: () => {
                     handleClickOption(`${record.id}`);
-                  }, // double click row
+                  },
                 };
               }}
               title={() => {
@@ -143,17 +143,11 @@ export default function Users() {
                   ),
                 },
                 {
-                  key: "email",
-                  title: "Email",
-                  dataIndex: "email",
-                  render: (value) => (
-                    <span style={{ fontWeight: "bold" }}>{value}</span>
-                  ),
-                },
-                {
                   key: "admin",
                   title: "Admin",
                   dataIndex: "admin",
+                  align: "center",
+                  width: 100,
                   render: (value) =>
                     value ? (
                       <Tag color="green">Sim</Tag>
@@ -162,9 +156,19 @@ export default function Users() {
                     ),
                 },
                 {
+                  key: "email",
+                  title: "Email",
+                  dataIndex: "email",
+                  width: 300,
+                  render: (value) => (
+                    <span style={{ fontWeight: "bold" }}>{value}</span>
+                  ),
+                },
+                {
                   key: "actions",
                   title: "Ações",
                   width: 60,
+                  fixed: "right",
                   align: "center",
                   render: (value: IUserResponse) => (
                     <TableActionDropdown

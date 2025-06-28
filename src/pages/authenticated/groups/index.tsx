@@ -3,7 +3,7 @@ import HeaderPage from "@/shared/components/header";
 import TableCustom from "@/shared/components/table-custom";
 import { EnumGroupKey } from "@/shared/enums/keys";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Button, Col, Dropdown, MenuProps, Row } from "antd";
+import { Col, Row } from "antd";
 import { useRef } from "react";
 import CardInformation from "./_components/card-information";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -13,11 +13,11 @@ import {
   DeleteOutlined,
   EditOutlined,
   KeyOutlined,
-  MoreOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
 import { IGroupResponse } from "@/data/services/group/interface";
 import { LabelOptionItem } from "@/shared/components/table-custom/label-option-item";
+import TableActionDropdown from "@/shared/components/table-action-dropdown";
 
 export default function Groups() {
   const match = useMatch("/grupo");
@@ -108,12 +108,18 @@ export default function Groups() {
                   dataIndex: "nome",
                   key: "nome",
                   width: 200,
+                  render: (text: string) => (
+                    <span style={{ fontWeight: "bold" }}>{text}</span>
+                  ),
                 },
                 {
                   title: "Descrição",
                   dataIndex: "descricao",
                   key: "descricao",
                   width: 200,
+                  render: (text: string) => (
+                    <span style={{ fontWeight: "bold" }}>{text}</span>
+                  ),
                 },
                 {
                   title: "Ações",
@@ -121,46 +127,36 @@ export default function Groups() {
                   align: "center",
                   width: 80,
                   fixed: "right",
-                  render: (value: IGroupResponse) => {
-                    const optionsMenu: MenuProps["items"] = [
-                      {
-                        key: "1",
-                        label: <LabelOptionItem title="Editar" />,
-                        icon: <EditOutlined />,
-                        // disabled: value?.deleted || !hasPermission("UpdateUser"),
-                        onClick: () => handleClickOption(`${value.id}`),
-                      },
-                      {
-                        key: "2",
-                        icon: <KeyOutlined />,
-                        label: <LabelOptionItem title="Permissões" />,
-                        // disabled:
-                        //   value?.deleted || !hasPermission("BindUserPermission"),
-                        onClick: () =>
-                          handleClickOption(`permissoes/${value.id}`),
-                      },
-                      {
-                        key: "4",
-                        icon: <DeleteOutlined />,
-                        label: <LabelOptionItem title="Deletar" />,
-                        // disabled: !hasPermission("DeleteUser"),
-                        onClick: handleDeleteUser,
-                      },
-                    ];
-
-                    return (
-                      <Col>
-                        <Dropdown
-                          trigger={["click"]}
-                          menu={{ items: optionsMenu }}
-                        >
-                          <Button>
-                            <MoreOutlined />
-                          </Button>
-                        </Dropdown>
-                      </Col>
-                    );
-                  },
+                  render: (value: IGroupResponse) => (
+                    <TableActionDropdown
+                      value={value}
+                      items={() => [
+                        {
+                          key: "1",
+                          label: <LabelOptionItem title="Editar" />,
+                          icon: <EditOutlined />,
+                          // disabled: value?.deleted || !hasPermission("UpdateUser"),
+                          onClick: () => handleClickOption(`${value.id}`),
+                        },
+                        {
+                          key: "2",
+                          icon: <KeyOutlined />,
+                          label: <LabelOptionItem title="Permissões" />,
+                          // disabled:
+                          //   value?.deleted || !hasPermission("BindUserPermission"),
+                          onClick: () =>
+                            handleClickOption(`permissoes/${value.id}`),
+                        },
+                        {
+                          key: "4",
+                          icon: <DeleteOutlined />,
+                          label: <LabelOptionItem title="Deletar" />,
+                          // disabled: !hasPermission("DeleteUser"),
+                          onClick: handleDeleteUser,
+                        },
+                      ]}
+                    />
+                  ),
                 },
               ]}
               scroll={{

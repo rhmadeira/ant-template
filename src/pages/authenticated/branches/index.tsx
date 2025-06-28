@@ -1,7 +1,6 @@
 import { useColumnVisibility } from "@/data/hooks/column-visibility";
 import { branchService } from "@/data/services/branch";
 import { IBranchResponse } from "@/data/services/branch/interface";
-import { IUserResponse } from "@/data/services/user/interface";
 import HeaderPage from "@/shared/components/header";
 import TableCustom from "@/shared/components/table-custom";
 import ColumnFilter from "@/shared/components/table-custom/column-filter";
@@ -12,13 +11,13 @@ import {
   KeyOutlined,
   UsergroupAddOutlined,
   DeleteOutlined,
-  MoreOutlined,
 } from "@ant-design/icons";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Button, Col, Dropdown, MenuProps, Row, TableColumnsType } from "antd";
+import { Col, Row, TableColumnsType } from "antd";
 import { useNavigate } from "react-router-dom";
 import FilterBranches from "./components/filter-branches";
 import { useEffect, useRef } from "react";
+import TableActionDropdown from "@/shared/components/table-action-dropdown";
 
 export default function Branches() {
   // const hasPermission = usePermissionsStore((state) => state.hasPermission);
@@ -176,54 +175,44 @@ export default function Branches() {
       fixed: "right",
       align: "center",
       dataIndex: "actions",
-      render: (value: IUserResponse) => {
-        const optionsMenu: MenuProps["items"] = [
-          {
-            key: "1",
-            label: <LabelOptionItem title="Editar" />,
-            icon: <EditOutlined />,
-            // disabled: value?.deleted || !hasPermission("UpdateUser"),
-            onClick: () => handleClickOption(`editar/${value.id}`),
-          },
-          {
-            key: "2",
-            icon: <KeyOutlined />,
-            label: <LabelOptionItem title="Permissões" />,
-            // disabled:
-            //   value?.deleted || !hasPermission("BindUserPermission"),
-            onClick: () => handleClickOption(`permissoes-usuario/${value.id}`),
-          },
-          {
-            key: "3",
-            icon: <UsergroupAddOutlined />,
-            label: <LabelOptionItem title="Grupos" />,
-            // disabled:
-            //   value?.deleted || !hasPermission("BindUserRole"),
-            onClick: () => handleClickOption(`grupo-usuario/${value.id}`),
-          },
-          {
-            key: "4",
-            icon: <DeleteOutlined />,
-            label: <LabelOptionItem title="Deletar" />,
-            // disabled: !hasPermission("DeleteUser"),
-            onClick: handleDeleteUser,
-          },
-        ];
-
-        return (
-          <Col>
-            <Dropdown
-              disabled={value?.deleted}
-              trigger={["click"]}
-              menu={{ items: optionsMenu }}
-            >
-              <Button>
-                <MoreOutlined />
-              </Button>
-            </Dropdown>
-          </Col>
-        );
-      },
+      render: (value: IBranchResponse) => (
+        <TableActionDropdown
+          value={value}
+          items={() => [
+            {
+              key: "1",
+              label: <LabelOptionItem title="Editar" />,
+              icon: <EditOutlined />,
+              // disabled: value?.deleted || !hasPermission("UpdateUser"),
+              onClick: () => handleClickOption(`editar/${value.id}`),
+            },
+            {
+              key: "2",
+              icon: <KeyOutlined />,
+              label: <LabelOptionItem title="Permissões" />,
+              // disabled:
+              //   value?.deleted || !hasPermission("BindUserPermission"),
+              onClick: () =>
+                handleClickOption(`permissoes-usuario/${value.id}`),
+            },
+            {
+              key: "3",
+              icon: <UsergroupAddOutlined />,
+              label: <LabelOptionItem title="Grupos" />,
+              // disabled:
+              //   value?.deleted || !hasPermission("BindUserRole"),
+              onClick: () => handleClickOption(`grupo-usuario/${value.id}`),
+            },
+            {
+              key: "4",
+              icon: <DeleteOutlined />,
+              label: <LabelOptionItem title="Deletar" />,
+              // disabled: !hasPermission("DeleteUser"),
+              onClick: handleDeleteUser,
+            },
+          ]}
+        />
+      ),
     },
   ];
 
