@@ -6,15 +6,19 @@ import LogoShort from "@/shared/components/logo/logo-short";
 import { useThemeStore } from "@/data/stores/theme-store";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "@/shared/constants/app-routes";
+import { useEffect } from "react";
 
 export default function Side() {
   const collapsed = useSideStore((state) => state.collapsed);
   const toggleCollapse = useSideStore((state) => state.toggleCollapse);
   const theme = useThemeStore((state) => state.theme);
   const navigate = useNavigate();
+  const selectedKey = useSideStore((state) => state.selectedKey);
+  const setSelectedKey = useSideStore((state) => state.setSelectedKey);
 
   const handleClickMenuItem = (key: string) => {
     navigate(`/${key}`);
+    setSelectedKey([key]);
   };
 
   const menuItems = APP_ROUTES.filter((r) => r.showInSidebar).map((route) => ({
@@ -22,6 +26,14 @@ export default function Side() {
     icon: route.icon,
     label: route.label,
   }));
+
+  useEffect(() => {
+    const path = window.location.pathname;
+    const matchedRoute = APP_ROUTES.find((r) => path.includes(r.path));
+    if (matchedRoute) {
+      setSelectedKey([matchedRoute.path]);
+    }
+  }, [setSelectedKey]);
 
   return (
     <div
@@ -103,7 +115,7 @@ export default function Side() {
         <Menu
           defaultOpenKeys={["menu"]}
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          selectedKeys={selectedKey}
           onClick={({ key }) => handleClickMenuItem(key)}
           style={{
             marginTop: 30,

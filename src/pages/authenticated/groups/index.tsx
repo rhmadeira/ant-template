@@ -6,7 +6,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { Col, Row } from "antd";
 import { useRef } from "react";
 import CardInformation from "./_components/card-information";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useMatch } from "react-router-dom";
 import TableHeader from "@/shared/components/table-header";
 import {
@@ -18,6 +18,7 @@ import {
 import { IGroupResponse } from "@/data/services/group/interface";
 import { LabelOptionItem } from "@/shared/components/table-custom/label-option-item";
 import TableActionDropdown from "@/shared/components/table-action-dropdown";
+import PageTransitionOutlet from "@/shared/components/page-transition-outlet";
 
 export default function Groups() {
   const match = useMatch("/grupo");
@@ -172,7 +173,11 @@ export default function Groups() {
             padding: 10,
           }}
         >
-          {match ? <CardInformation /> : <Outlet />}
+          {match ? (
+            <CardInformation />
+          ) : (
+            <PageTransitionOutlet animated={true} type="slideRight" />
+          )}
         </Col>
       </Row>
     </>
