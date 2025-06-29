@@ -1,8 +1,10 @@
-import { Button, Card, Form, FormInstance } from "antd";
+import { Button, Card, Form, FormInstance, Row } from "antd";
 import { FieldValues } from "react-hook-form";
-import FormButtonGroup from "../form-button-group";
-import { CloseOutlined } from "@ant-design/icons";
-import { IPopConfirmProps } from "../../button-custom-confirm";
+import { CloseOutlined, SaveFilled } from "@ant-design/icons";
+import ButtonCustomConfirm, {
+  IPopConfirmProps,
+} from "../../button-custom-confirm";
+import { useEffect, useState } from "react";
 
 interface FormContainerProps<T extends FieldValues> {
   header: string;
@@ -10,7 +12,6 @@ interface FormContainerProps<T extends FieldValues> {
   form: FormInstance<T>;
   children: React.ReactNode;
   loading?: boolean;
-  showButtons?: boolean;
   onFinish: (values: T) => void;
   onClose?: () => void;
   notification?: {
@@ -25,11 +26,41 @@ export default function FormContainer<T extends FieldValues>({
   form,
   children,
   loading = false,
-  showButtons = true,
   onFinish,
   onClose,
   notification,
 }: FormContainerProps<T>) {
+  const [hasErrors, setHasErrors] = useState(false);
+
+  const handleClear = () => {
+    form.resetFields();
+    setHasErrors(false);
+  };
+  const handleCancel = () => {
+    if (onClose) {
+      onClose();
+    } else {
+      window.history.back();
+    }
+  };
+  const handleSubmit = () => {
+    if (form) {
+      form.submit();
+    }
+  };
+
+  useEffect(() => {
+    const checkErrors = () => {
+      const errors = form.getFieldsError();
+      const hasAnyErrors = errors.some((field) => field.errors.length > 0);
+      setHasErrors(hasAnyErrors);
+    };
+
+    const interval = setInterval(checkErrors, 300);
+
+    return () => clearInterval(interval);
+  }, [form]);
+
   return (
     <Card>
       <Card.Meta title={header} description={description} />
@@ -50,18 +81,61 @@ export default function FormContainer<T extends FieldValues>({
         style={{ marginTop: 16 }}
       >
         {children}
-        {showButtons && (
-          <FormButtonGroup
-            clearDisabled={!form.getFieldError}
-            loading={loading}
-            onClear={() => form.resetFields()}
-            onClose={onClose}
-            notification={{
-              ...notification,
-              form,
-            }}
-          />
-        )}
+        <Row
+          style={{
+            display: "flex",
+            justifyContent: "end",
+            marginTop: 16,
+            gap: 8,
+          }}
+        >
+          <Form.Item noStyle>
+            <Button type="default" onClick={handleClear}>
+              Limpar
+            </Button>
+          </Form.Item>
+          <Form.Item>
+            <Button disabled={loading} type="default" onClick={handleCancel}>
+              Cancelar
+            </Button>
+          </Form.Item>
+          <Form.Item>
+            {notification && (
+              <ButtonCustomConfirm
+                title={notification.title || "Salvar"}
+                description={
+                  notification.description ||
+                  "Você tem certeza que deseja salvar as alterações?"
+                }
+                onConfirm={handleSubmit}
+                onBeforeConfirm={async () => {
+                  try {
+                    await form?.validateFields();
+                    return true;
+                  } catch {
+                    return false;
+                  }
+                }}
+                bntProps={{
+                  htmlType: "button",
+                  children: "Salvar",
+                  loading: loading,
+                  icon: <SaveFilled />,
+                  disabled: hasErrors,
+                }}
+              />
+            )}
+            {!notification && (
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+                icon={<SaveFilled />}
+                children={"Salvar"}
+              />
+            )}
+          </Form.Item>
+        </Row>
       </Form>
     </Card>
   );

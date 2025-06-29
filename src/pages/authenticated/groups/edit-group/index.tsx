@@ -24,16 +24,12 @@ export default function EditGroup() {
   });
 
   const handleSubmit = (data: IGroupForm) => {
-    console.log("🚀 ~ handleSubmit ~ data:", data);
-
     groupMutate.mutate({
       id: data.id!,
       nome: data.nome,
       descricao: data.descricao,
     });
   };
-
-  console.log(form.getFieldsValue(["id", "nome", "descricao"]));
 
   useEffect(() => {
     if (groupById.isSuccess && groupById.data.value) {

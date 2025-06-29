@@ -2,6 +2,7 @@ import { userService } from "@/data/services/user";
 import { IUserResponse } from "@/data/services/user/interface";
 // import { usePermissionsStore } from "@/data/stores/permission-store";
 import HeaderPage from "@/shared/components/header";
+import PageTransitionOutlet from "@/shared/components/page-transition-outlet";
 import TableActionDropdown from "@/shared/components/table-action-dropdown";
 import TableCustom from "@/shared/components/table-custom";
 import { LabelOptionItem } from "@/shared/components/table-custom/label-option-item";
@@ -17,7 +18,7 @@ import {
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Avatar, Col, Row, Tag } from "antd";
 import { useEffect, useRef } from "react";
-import { Outlet, useMatch, useNavigate } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 
 export default function Users() {
   // const hasPermission = usePermissionsStore((state) => state.hasPermission);
@@ -218,7 +219,7 @@ export default function Users() {
               padding: 10,
             }}
           >
-            <Outlet />
+            <PageTransitionOutlet animated={true} type="slideRight" />
           </Col>
         )}
       </Row>

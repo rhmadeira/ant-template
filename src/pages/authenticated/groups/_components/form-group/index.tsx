@@ -13,7 +13,7 @@ export default function FormGroup({ loading }: IFormGroupProps) {
         <InputCustom />
       </Form.Item>
       {loading ? (
-        <InputCustomSkeleton />
+        <InputCustomSkeleton label="Nome" />
       ) : (
         <Form.Item
           hasFeedback
@@ -25,14 +25,14 @@ export default function FormGroup({ loading }: IFormGroupProps) {
             { min: 3, message: "O nome deve ter no mínimo 3 caracteres." },
           ]}
           required
-          validateDebounce={500}
+          validateDebounce={100}
           validateTrigger={["onBlur"]}
         >
           <InputCustom />
         </Form.Item>
       )}
       {loading ? (
-        <InputCustomSkeleton />
+        <InputCustomSkeleton label="Descrição" />
       ) : (
         <Form.Item
           hasFeedback
@@ -47,7 +47,7 @@ export default function FormGroup({ loading }: IFormGroupProps) {
             { min: 3, message: "A descrição deve ter no mínimo 3 caracteres." },
           ]}
           required
-          validateDebounce={500}
+          validateDebounce={100}
           validateTrigger={["onBlur"]}
         >
           <InputCustom />
