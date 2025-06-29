@@ -252,36 +252,6 @@ export default function Branches() {
         }}
       >
         <Col
-          span={showFilter ? 6 : 1}
-          style={{
-            padding: 10,
-          }}
-        >
-          {!showFilter && (
-            <Button
-              style={{ marginBottom: 10 }}
-              onClick={() => setShowFilter(true)}
-              icon={<FilterOutlined />}
-            />
-          )}
-          {showFilter && (
-            <Row
-              style={{
-                borderRadius: 4,
-                backgroundColor: "white",
-                padding: 10,
-              }}
-            >
-              <FilterBranches setShowFilter={setShowFilter} />
-              <ColumnFilter
-                value={visibleColumns}
-                options={filterOptions}
-                onChange={setVisibleColumns}
-              />
-            </Row>
-          )}
-        </Col>
-        <Col
           span={showFilter ? 18 : 23}
           style={{
             padding: 10,
@@ -317,6 +287,36 @@ export default function Branches() {
               loading={branch.isLoading || branch.isFetchingNextPage}
             />
           </div>
+        </Col>
+        <Col
+          span={showFilter ? 6 : 1}
+          style={{
+            padding: 10,
+          }}
+        >
+          {!showFilter && (
+            <Button
+              style={{ marginBottom: 10 }}
+              onClick={() => setShowFilter(true)}
+              icon={<FilterOutlined />}
+            />
+          )}
+          {showFilter && (
+            <Row
+              style={{
+                borderRadius: 4,
+                backgroundColor: "white",
+                padding: 10,
+              }}
+            >
+              <FilterBranches setShowFilter={setShowFilter} />
+              <ColumnFilter
+                value={visibleColumns}
+                options={filterOptions}
+                onChange={setVisibleColumns}
+              />
+            </Row>
+          )}
         </Col>
       </Row>
     </>

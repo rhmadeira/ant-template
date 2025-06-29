@@ -104,3 +104,11 @@ export interface IGetAllFilialParams extends TBaseRequest {
   uf?: string;
   cidade?: string;
 }
+
+export interface IBranchForm {
+  id?: string;
+  nome: string;
+  cnpj: string;
+  razaoSocial: string;
+  nomeFantasia: string;
+}

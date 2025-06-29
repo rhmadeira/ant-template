@@ -11,6 +11,7 @@ interface FormContainerProps<T extends FieldValues> {
   description?: string;
   form: FormInstance<T>;
   children: React.ReactNode;
+  showButtonClose?: boolean;
   loading?: boolean;
   onFinish: (values: T) => void;
   onClose?: () => void;
@@ -29,6 +30,7 @@ export default function FormContainer<T extends FieldValues>({
   onFinish,
   onClose,
   notification,
+  showButtonClose = true,
 }: FormContainerProps<T>) {
   const [hasErrors, setHasErrors] = useState(false);
 
@@ -64,16 +66,18 @@ export default function FormContainer<T extends FieldValues>({
   return (
     <Card>
       <Card.Meta title={header} description={description} />
-      <Button
-        size="small"
-        icon={<CloseOutlined />}
-        style={{
-          position: "absolute",
-          top: 16,
-          right: 16,
-        }}
-        onClick={onClose}
-      />
+      {showButtonClose && (
+        <Button
+          size="small"
+          icon={<CloseOutlined />}
+          style={{
+            position: "absolute",
+            top: 16,
+            right: 16,
+          }}
+          onClick={onClose}
+        />
+      )}
       <Form
         form={form}
         layout="vertical"

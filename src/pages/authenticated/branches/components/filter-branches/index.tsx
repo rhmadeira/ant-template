@@ -1,6 +1,6 @@
 import { useThemeStore } from "@/data/stores/theme-store";
 import InputCustom from "@/shared/components/form/input-custom";
-import { LeftOutlined } from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 import { Button, Col, Row, Tag, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -67,12 +67,12 @@ export default function FilterBranches({
           <Button
             style={{
               position: "absolute",
-              top: 10,
-              right: -20,
+              top: 0,
+              right: 0,
             }}
             onClick={() => setShowFilter(false)}
             icon={
-              <LeftOutlined
+              <CloseOutlined
                 style={{
                   color: theme.token?.colorPrimary,
                 }}
