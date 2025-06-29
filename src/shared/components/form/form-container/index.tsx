@@ -1,36 +1,38 @@
-import { Button, Card, Form } from "antd";
-import { UseFormReturn, FieldValues } from "react-hook-form";
+import { Button, Card, Form, FormInstance } from "antd";
+import { FieldValues } from "react-hook-form";
 import FormButtonGroup from "../form-button-group";
 import { CloseOutlined } from "@ant-design/icons";
+import { IPopConfirmProps } from "../../button-custom-confirm";
 
 interface FormContainerProps<T extends FieldValues> {
-  title: string;
+  header: string;
   description?: string;
-  form: UseFormReturn<T>;
+  form: FormInstance<T>;
   children: React.ReactNode;
   loading?: boolean;
   showButtons?: boolean;
-  onCancel?: () => void;
-  onClear?: () => void;
   onFinish: (values: T) => void;
   onClose?: () => void;
+  notification?: {
+    title?: IPopConfirmProps["title"];
+    description?: IPopConfirmProps["description"];
+  };
 }
 
 export default function FormContainer<T extends FieldValues>({
-  title,
+  header,
   description,
   form,
-  onFinish,
   children,
   loading = false,
-  onClear,
   showButtons = true,
-  onCancel,
+  onFinish,
   onClose,
+  notification,
 }: FormContainerProps<T>) {
   return (
     <Card>
-      <Card.Meta title={title} description={description} />
+      <Card.Meta title={header} description={description} />
       <Button
         size="small"
         icon={<CloseOutlined />}
@@ -39,20 +41,25 @@ export default function FormContainer<T extends FieldValues>({
           top: 16,
           right: 16,
         }}
-        onClick={onClose ?? onCancel}
+        onClick={onClose}
       />
       <Form
+        form={form}
         layout="vertical"
-        onFinish={form.handleSubmit(onFinish)}
+        onFinish={onFinish}
         style={{ marginTop: 16 }}
       >
         {children}
         {showButtons && (
           <FormButtonGroup
-            clearDisabled={!form.formState.isDirty}
-            loading={form.formState.isSubmitting || loading}
-            onClear={onClear ?? (() => form.reset())}
-            onCancel={onCancel ?? (() => form.reset())}
+            clearDisabled={!form.getFieldError}
+            loading={loading}
+            onClear={() => form.resetFields()}
+            onClose={onClose}
+            notification={{
+              ...notification,
+              form,
+            }}
           />
         )}
       </Form>

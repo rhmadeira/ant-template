@@ -178,8 +178,6 @@ export default function Branches() {
       fixed: "right",
       align: "center",
       render: (value: IBranchResponse) => {
-        console.log("🚀 ~ Branches ~ value:", value);
-
         return (
           <TableActionDropdown
             value={value}

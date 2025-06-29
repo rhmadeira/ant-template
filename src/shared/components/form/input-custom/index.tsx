@@ -12,16 +12,7 @@ export default function InputCustom({ label, ...rest }: InputCustomProps) {
       }}
     >
       {label && <Typography.Title level={5}>{label}</Typography.Title>}
-      <Input
-        size="middle"
-        autoComplete="off"
-        autoCorrect="off"
-        spellCheck="false"
-        autoCapitalize="none"
-        variant="outlined"
-        width={"100%"}
-        {...rest}
-      />
+      <Input size="middle" variant="outlined" width={"100%"} {...rest} />
     </div>
   );
 }

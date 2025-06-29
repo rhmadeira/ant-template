@@ -1,33 +1,52 @@
 import { SaveFilled } from "@ant-design/icons";
-import { Button, Form, Row } from "antd";
+import { Button, Form, FormInstance, Row } from "antd";
+import ButtonCustomConfirm, {
+  IPopConfirmProps,
+} from "../../button-custom-confirm";
+
+export interface IRequiredApproval {
+  form: FormInstance;
+  title?: IPopConfirmProps["title"];
+  description?: IPopConfirmProps["description"];
+}
 
 interface IFormButtonGroupProps {
   clearDisabled?: boolean;
   loading?: boolean;
-  onCancel?: () => void;
+  onClose?: () => void;
   onClear?: () => void;
   titleButtonSave?: string;
+  notification?: IRequiredApproval;
 }
 
 export default function FormButtonGroup({
   clearDisabled,
   loading,
-  onCancel,
+  onClose,
   onClear,
+  notification,
   titleButtonSave = "Salvar",
 }: IFormButtonGroupProps) {
+  const { description, form, title } = notification || {};
+
   const handleClear = () => {
     if (onClear) {
       onClear();
     }
   };
   const handleCancel = () => {
-    if (onCancel) {
-      onCancel();
+    if (onClose) {
+      onClose();
     } else {
       window.history.back();
     }
   };
+  const handleSubmit = () => {
+    if (form) {
+      form.submit();
+    }
+  };
+
   return (
     <Row
       style={{
@@ -52,14 +71,30 @@ export default function FormButtonGroup({
         </Button>
       </Form.Item>
       <Form.Item>
-        <Button
-          type="primary"
-          htmlType="submit"
-          loading={loading}
-          icon={<SaveFilled />}
-        >
-          {titleButtonSave}
-        </Button>
+        {notification ? (
+          <ButtonCustomConfirm
+            title={title || "Salvar"}
+            description={
+              description || "Você tem certeza que deseja salvar as alterações?"
+            }
+            onConfirm={handleSubmit}
+            bntProps={{
+              htmlType: "button",
+              children: titleButtonSave,
+              loading: loading,
+              icon: <SaveFilled />,
+            }}
+          />
+        ) : (
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={loading}
+            icon={<SaveFilled />}
+          >
+            {titleButtonSave}
+          </Button>
+        )}
       </Form.Item>
     </Row>
   );

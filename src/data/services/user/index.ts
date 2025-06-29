@@ -25,7 +25,6 @@ const getById = async (id: string) => {
 };
 
 const create = async (user: ICreateUser) => {
-  console.log("🚀 ~ create ~ user:", user);
   const { data } = await api.post<TApiResponseModel<IUserResponse>>(
     "/user",
     user

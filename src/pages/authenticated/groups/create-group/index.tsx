@@ -1,36 +1,36 @@
-import { Card, Form } from "antd";
+import { Form } from "antd";
 import FormGroup from "../_components/form-group";
-import { useForm } from "react-hook-form";
 import { IGroupForm } from "@/data/services/group/interface";
-import FormButtonGroup from "@/shared/components/form/form-button-group";
 import { useNavigate } from "react-router-dom";
+import FormContainer from "@/shared/components/form/form-container";
+import { useMutation } from "@tanstack/react-query";
+import { groupService } from "@/data/services/group";
 
 export default function CreateGroup() {
-  const form = useForm<IGroupForm>();
+  const [form] = Form.useForm<IGroupForm>();
   const navigate = useNavigate();
 
+  const groupMutate = useMutation({
+    mutationFn: groupService.create,
+  });
+
   const handleSubmit = (data: IGroupForm) => {
-    console.log("Form Data:", data);
+    groupMutate.mutate({
+      nome: data.nome,
+      descricao: data.descricao,
+    });
   };
+
   return (
-    <Card>
-      <Card.Meta
-        title="Criar Grupo"
-        description="Aqui você pode criar um novo grupo."
-      />
-      <Form
-        layout="vertical"
-        onFinish={form.handleSubmit(handleSubmit)}
-        style={{ marginTop: 16 }}
-      >
-        <FormGroup form={form} />
-        <FormButtonGroup
-          clearDisabled={!form.formState.isDirty}
-          loading={form.formState.isSubmitting}
-          onClear={() => form.reset()}
-          onCancel={() => navigate("/grupo")}
-        />
-      </Form>
-    </Card>
+    <FormContainer
+      header="Criar Grupo"
+      description="Aqui você pode editar as informações do grupo selecionado."
+      form={form}
+      loading={groupMutate.isPending}
+      onFinish={handleSubmit}
+      onClose={() => navigate("/grupo")}
+    >
+      <FormGroup />
+    </FormContainer>
   );
 }

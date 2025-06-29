@@ -1,76 +1,58 @@
 import InputCustom from "@/shared/components/form/input-custom";
-import { Controller, UseFormReturn } from "react-hook-form";
-import { Form, Skeleton } from "antd";
-import { IGroupForm } from "@/data/services/group/interface";
+import InputCustomSkeleton from "@/shared/components/form/input-custom-skeleton";
+import { Form } from "antd";
 
 interface IFormGroupProps {
-  form: UseFormReturn<IGroupForm, unknown>;
   loading?: boolean;
 }
 
-export default function FormGroup({ form, loading }: IFormGroupProps) {
+export default function FormGroup({ loading }: IFormGroupProps) {
   return (
     <>
-      <Controller
-        name="nome"
-        control={form.control}
-        defaultValue=""
-        rules={{
-          required: "Campo obrigatório",
-          minLength: {
-            value: 6,
-            message: "Mínimo de 6 caracteres",
-          },
-          maxLength: {
-            value: 50,
-            message: "Máximo de 50 caracteres",
-          },
-        }}
-        render={({ field, fieldState }) => (
-          <Form.Item
-            hasFeedback
-            label="Nome"
-            validateStatus={fieldState.error ? "error" : ""}
-            help={fieldState.error ? fieldState.error.message : ""}
-          >
-            {loading ? (
-              <Skeleton.Input active style={{ width: "100%" }} />
-            ) : (
-              <InputCustom {...field} />
-            )}
-          </Form.Item>
-        )}
-      />
-      <Controller
-        name="descricao"
-        control={form.control}
-        defaultValue=""
-        rules={{
-          required: "Campo obrigatório",
-          minLength: {
-            value: 6,
-            message: "Mínimo de 6 caracteres",
-          },
-          maxLength: {
-            value: 100,
-            message: "Máximo de 100 caracteres",
-          },
-        }}
-        render={({ field, fieldState }) => (
-          <Form.Item
-            hasFeedback
-            label="Descrição"
-            validateStatus={fieldState.error ? "error" : ""}
-            help={fieldState.error ? fieldState.error.message : ""}
-          >
-            {loading ? (
-              <Skeleton.Input active style={{ width: "100%" }} />
-            ) : (
-              <InputCustom {...field} />
-            )}
-          </Form.Item>
-        )}
-      />
+      <Form.Item name="id" hidden>
+        <InputCustom />
+      </Form.Item>
+      {loading ? (
+        <InputCustomSkeleton />
+      ) : (
+        <Form.Item
+          hasFeedback
+          label="Nome"
+          name="nome"
+          rules={[
+            { required: true, message: "O nome é obrigatório." },
+            { max: 50, message: "O nome deve ter no máximo 50 caracteres." },
+            { min: 3, message: "O nome deve ter no mínimo 3 caracteres." },
+          ]}
+          required
+          validateDebounce={500}
+          validateTrigger={["onBlur"]}
+        >
+          <InputCustom />
+        </Form.Item>
+      )}
+      {loading ? (
+        <InputCustomSkeleton />
+      ) : (
+        <Form.Item
+          hasFeedback
+          label="Descrição"
+          name="descricao"
+          rules={[
+            { required: true, message: "A descrição é obrigatória." },
+            {
+              max: 200,
+              message: "A descrição deve ter no máximo 200 caracteres.",
+            },
+            { min: 3, message: "A descrição deve ter no mínimo 3 caracteres." },
+          ]}
+          required
+          validateDebounce={500}
+          validateTrigger={["onBlur"]}
+        >
+          <InputCustom />
+        </Form.Item>
+      )}
     </>
   );
 }

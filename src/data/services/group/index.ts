@@ -28,19 +28,19 @@ const getById = async (id: string) => {
   return data;
 };
 
-const create = async (branch: ICreateGroup) => {
-  console.log("🚀 ~ create ~ branch:", branch);
+const create = async (group: ICreateGroup) => {
   const { data } = await api.post<TApiResponseModel<IGroupResponse>>(
     "/group",
-    branch
+    group
   );
   return data;
 };
 
-const update = async (id: string, branch: IUpdateGroup) => {
+const update = async (group: IUpdateGroup) => {
+  console.log("🚀 ~ update ~ branch:", group);
   const { data } = await api.put<TApiResponseModel<IGroupResponse>>(
-    `/group/${id}`,
-    branch
+    `/group/${group.id}`,
+    group
   );
   return data;
 };
