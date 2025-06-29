@@ -35,7 +35,7 @@ export default function FormUser({ form, loading }: IFormUserProps) {
             help={fieldState.error ? fieldState.error.message : ""}
           >
             {loading ? (
-              <Skeleton.Input active size="small" style={{ width: "100%" }} />
+              <Skeleton.Input active block size="small" />
             ) : (
               <InputCustom {...field} />
             )}
@@ -79,6 +79,7 @@ export default function FormUser({ form, loading }: IFormUserProps) {
             ) : (
               <CheckboxCustom
                 {...field}
+                checked={field.value}
                 onChange={(e) => field.onChange(e.target.checked)}
               />
             )}

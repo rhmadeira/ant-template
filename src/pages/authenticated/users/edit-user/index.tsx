@@ -7,11 +7,13 @@ import { useQuery } from "@tanstack/react-query";
 import { EnumUserKey } from "@/shared/enums/keys";
 import { userService } from "@/data/services/user";
 import { useEffect } from "react";
+import { useToast } from "@/data/context/notification-context";
 
 export default function EditUser() {
   const { id } = useParams<{ id: string }>();
   const form = useForm<IUserForm>();
   const navigate = useNavigate();
+  const alert = useToast();
 
   const userById = useQuery({
     queryKey: [EnumUserKey.getById, id],
@@ -32,7 +34,17 @@ export default function EditUser() {
   }, [userById.isSuccess, userById.data, form]);
 
   const handleSubmit = (data: IUserForm) => {
-    console.log("Form Data:", data);
+    alert.openMutation({
+      key: "edit-user",
+      message: "Confirmação de Edição",
+      description: "Você tem certeza que deseja editar este usuário?",
+      onCancel: () => {
+        console.log("Edição cancelada");
+      },
+      onSuccess: async () => {
+        console.log("Edição confirmada", data);
+      },
+    });
   };
 
   return (

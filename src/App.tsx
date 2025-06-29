@@ -6,15 +6,18 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { queryClient } from "./data/libs/query-client";
 import { router } from "@/routes/index";
 import ThemeContext from "@/data/context/theme-context";
+import { NotificationProvider } from "./data/provider/notification-provider";
 
 function App() {
   return (
     <HelmetProvider>
       <ThemeContext>
-        <Helmet titleTemplate="%s | Antd Template" defaultTitle="Antd" />
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-        </QueryClientProvider>
+        <NotificationProvider>
+          <Helmet titleTemplate="%s | Antd Template" defaultTitle="Antd" />
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+          </QueryClientProvider>
+        </NotificationProvider>
       </ThemeContext>
     </HelmetProvider>
   );
