@@ -82,6 +82,7 @@ export default function Login() {
               layout="vertical"
               onFinish={handleSubmit}
               style={{ width: "100%" }}
+              validateTrigger="onSubmit"
             >
               <Form.Item
                 name="email"
