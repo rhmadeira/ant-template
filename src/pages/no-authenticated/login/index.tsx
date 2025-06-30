@@ -3,7 +3,7 @@ import { useThemeStore } from "@/data/stores/theme-store";
 import CheckboxCustom from "@/shared/components/form/checkbox-custom";
 import InputCustom from "@/shared/components/form/input-custom";
 import LogoFull from "@/shared/components/logo/logo-full";
-import { Button, Col, Form, Row, Typography } from "antd";
+import { Button, Card, Col, Form, Row, Typography } from "antd";
 
 export default function Login() {
   const theme = useThemeStore((state) => state.theme);
@@ -30,19 +30,7 @@ export default function Login() {
         background: `linear-gradient(135deg, ${theme.token?.colorPrimary} 0%, #002766 100%)`,
       }}
     >
-      <Row
-        style={{
-          paddingTop: 20,
-          paddingBottom: 20,
-          paddingLeft: 15,
-          paddingRight: 15,
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-          borderRadius: 8,
-          width: "30%",
-          height: "50%",
-          backgroundColor: theme.token?.colorBgContainer,
-        }}
-      >
+      <Card>
         <Col
           span={24}
           style={{
@@ -136,7 +124,7 @@ export default function Login() {
             Não tem uma conta? entrar em contato com o administrador do sistema.
           </Typography>
         </Col>
-      </Row>
+      </Card>
     </Row>
   );
 }
