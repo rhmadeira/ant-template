@@ -8,7 +8,7 @@ type TAuthStore = {
 };
 
 const store: StateCreator<TAuthStore> = (set) => ({
-  accessToken: "kk",
+  accessToken: "",
   login: (accessToken: string) => {
     set({ accessToken });
   },
@@ -20,6 +20,6 @@ const store: StateCreator<TAuthStore> = (set) => ({
 export const useAuthStore = create(
   persist(store, {
     name: "@Denvio/auth-store",
-    version: 1,
+    version: 2,
   })
 );

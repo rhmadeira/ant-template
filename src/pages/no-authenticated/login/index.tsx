@@ -1,11 +1,24 @@
+import { useAuthStore } from "@/data/stores/auth-store";
 import { useThemeStore } from "@/data/stores/theme-store";
 import CheckboxCustom from "@/shared/components/form/checkbox-custom";
 import InputCustom from "@/shared/components/form/input-custom";
 import LogoFull from "@/shared/components/logo/logo-full";
-import { Button, Col, Row, Typography } from "antd";
+import { Button, Col, Form, Row, Typography } from "antd";
 
 export default function Login() {
   const theme = useThemeStore((state) => state.theme);
+  const login = useAuthStore((state) => state.login);
+
+  const [form] = Form.useForm<{
+    email: string;
+    password: string;
+  }>();
+
+  const handleSubmit = (values: { email: string; password: string }) => {
+    // Simulate a login action
+    console.log("Login values:", values);
+    login("mockAccessToken"); // Replace with actual login logic
+  };
   return (
     <Row
       style={{
@@ -75,10 +88,49 @@ export default function Login() {
                 Faça login para continuar
               </Typography.Text>
             </Row>
-            <InputCustom label="Email:" size="middle" />
-            <InputCustom label="Senha:" type="password" size="middle" />
-            <CheckboxCustom label="Lembrar e-mail" />
-            <Button>Entrar</Button>
+            <Form
+              form={form}
+              name="login"
+              layout="vertical"
+              onFinish={handleSubmit}
+              style={{ width: "100%" }}
+            >
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: "Por favor, insira seu e-mail!",
+                  },
+                  {
+                    type: "email",
+                    message: "O e-mail inserido não é válido!",
+                  },
+                ]}
+              >
+                <InputCustom label="Email:" size="middle" />
+              </Form.Item>
+              <Form.Item
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Por favor, insira sua senha!",
+                  },
+                ]}
+              >
+                <InputCustom label="Senha:" type="password" size="middle" />
+              </Form.Item>
+              <Form.Item>
+                <CheckboxCustom label="Lembrar e-mail" />
+              </Form.Item>
+
+              <Form.Item>
+                <Button type="primary" htmlType="submit" block>
+                  Entrar
+                </Button>
+              </Form.Item>
+            </Form>
           </Row>
           <Typography>
             Não tem uma conta? entrar em contato com o administrador do sistema.
