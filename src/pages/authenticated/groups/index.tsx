@@ -147,6 +147,7 @@ export default function Groups() {
                           //   value?.deleted || !hasPermission("BindUserPermission"),
                           onClick: () =>
                             handleClickOption(`permissoes/${value.id}`),
+                          disabled: true,
                         },
                         {
                           key: "4",
@@ -154,6 +155,7 @@ export default function Groups() {
                           label: <LabelOptionItem title="Deletar" />,
                           // disabled: !hasPermission("DeleteUser"),
                           onClick: handleDeleteUser,
+                          disabled: true,
                         },
                       ]}
                     />

@@ -197,6 +197,7 @@ export default function Branches() {
                 //   value?.deleted || !hasPermission("BindUserPermission"),
                 onClick: () =>
                   handleClickOption(`permissoes-usuario/${value.id}`),
+                disabled: true,
               },
               {
                 key: "3",
@@ -205,6 +206,7 @@ export default function Branches() {
                 // disabled:
                 //   value?.deleted || !hasPermission("BindUserRole"),
                 onClick: () => handleClickOption(`grupo-usuario/${value.id}`),
+                disabled: true,
               },
               {
                 key: "4",
@@ -212,6 +214,7 @@ export default function Branches() {
                 label: <LabelOptionItem title="Deletar" />,
                 // disabled: !hasPermission("DeleteUser"),
                 onClick: handleDeleteUser,
+                disabled: true,
               },
             ]}
           />

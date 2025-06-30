@@ -186,18 +186,21 @@ export default function Users() {
                           label: <LabelOptionItem title="Permissões" />,
                           onClick: () =>
                             handleClickOption(`permissao/${user.id}`),
+                          disabled: true,
                         },
                         {
                           key: "3",
                           icon: <UsergroupAddOutlined />,
                           label: <LabelOptionItem title="Grupos" />,
                           onClick: () => handleClickOption(`grupo/${user.id}`),
+                          disabled: true,
                         },
                         {
                           key: "4",
                           icon: <DeleteOutlined />,
                           label: <LabelOptionItem title="Deletar" />,
                           onClick: () => handleDeleteUser(),
+                          disabled: true,
                         },
                       ]}
                       disabled={value?.deleted}
