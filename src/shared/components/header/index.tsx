@@ -59,7 +59,7 @@ export default function HeaderPage({
           display: "flex",
           alignItems: "center",
           backgroundColor: theme.token?.colorPrimary,
-          height: 120,
+          height: 80,
           width: "100%",
           padding: "0 20px",
           margin: 0,
@@ -82,7 +82,7 @@ export default function HeaderPage({
               color: theme.token?.colorTextLightSolid,
               margin: 0,
             }}
-            level={2}
+            level={4}
           >
             {title}
           </Typography.Title>
